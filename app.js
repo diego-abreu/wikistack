@@ -5,9 +5,20 @@ const layout = require('./views/layout');
 const { db, Page, User } = require('./models/index');
 const port = 1337;
 
+const routesWiki = require('./routes/wiki');
+const routesUsers = require('./routes/users');
+
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/wiki', routesWiki);
+app.use('/users', routesUsers);
+
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/views'));
+
+app.get('/', (req, res, next) => {
+  res.redirect('/wiki');
+});
 
 const create = async () => {
   // await Page.sync({ force: true });
